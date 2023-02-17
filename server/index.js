@@ -10,6 +10,13 @@ import morgan from "morgan"; //logging
 // gridfs-stream - file upload
 // jsonwebtoken - web authentication
 
+/**path and routes for every functionality */
+import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
+
+/**section imports */
+import { register } from "./controllers/auth";
+
 // in built packages
 import path from "path";
 import { fileURLToPath } from "url";
@@ -42,6 +49,13 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+// Routes with files for AUTH
+app.post("/auth/register", upload.single("picture"), register);
+
+// Routes
+app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
 
 /*Mongoose setup */
 const PORT = process.env.PORT || 6001;
